@@ -4,6 +4,7 @@ import GameGrid from "./components/GameGrid";
 
 function App() {
   return (
+  
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
@@ -18,6 +19,7 @@ function App() {
       </Show>
       <GridItem area="main"><GameGrid /></GridItem>
     </Grid>
+    
   );
 }
 

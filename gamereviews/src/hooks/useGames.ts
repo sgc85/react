@@ -1,11 +1,18 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import apiClient from "../services/api-client";
-import {CanceledError} from 'axios';
+import axios from "axios"; // Import axios directly to use its utilities
+
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
+}
 
 export interface Game {
   id: number;
   name: string;
-  background_image : string;
+  background_image: string;
+  parent_platforms: { platform: Platform }[];
 }
 
 interface Games {
@@ -22,13 +29,15 @@ const useGames = () => {
 
     apiClient
       .get<Games>("/games", { signal: controller.signal })
-      .then((res) => setGames(res.data.results))
+      .then((res) => {
+        setGames(res.data.results); // Set the games state with the fetched data
+      })
       .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
+        if (axios.isCancel(err)) return; // Check if the error is due to cancellation
+        setError(err.message); // Handle other errors
       });
 
-    return () => controller.abort();
+    return () => controller.abort(); // Clean up on component unmount or dependency change
   }, []);
 
   return { games, setGames, error, setError };
