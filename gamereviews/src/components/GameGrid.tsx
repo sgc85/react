@@ -1,11 +1,11 @@
-// import { useEffect, useState } from "react";
-// import apiClient from "../services/api-client";
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import GameCard from "./GameCard";
+import GameCardSkeleton from "./GameCardSkeleton"; // Updated the name to PascalCase
 
 const GameGrid = () => {
-  const { error, games } = useGames();
+  const { error, games, loading } = useGames();
+  const skeletons = [1, 2, 3, 4, 5, 6];
 
   return (
     <>
@@ -15,8 +15,12 @@ const GameGrid = () => {
         padding="10px"
         spacing={10}
       >
+        {loading &&
+          skeletons.map((skeleton) => (
+            <GameCardSkeleton key={skeleton} /> // Corrected component usage
+          ))}
         {games.map((game) => (
-          <GameCard key={game.id} game={game}></GameCard>
+          <GameCard key={game.id} game={game} />
         ))}
       </SimpleGrid>
     </>
