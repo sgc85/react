@@ -23,6 +23,7 @@ const GameCard = ({ game }: Props) => {
         </HStack>
       </CardBody>
     </Card>
+
   );
 };
 
